@@ -1,12 +1,13 @@
 {
-  "name": "pocket-md",
+  "name": "weatherapp",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "create-component": "node scripts/components/index.js"
   },
   "dependencies": {
     "@next/font": "13.1.6",
@@ -19,10 +20,13 @@
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "styled-components": "^5.3.6",
     "typescript": "*"
   },
   "devDependencies": {
+    "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "capitalize-first-letter": "^1.0.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.27.5",
     "husky": "^8.0.3",
