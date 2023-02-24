@@ -24,7 +24,7 @@ function useAuthToken() {
         const intervalId = setInterval(async () => {
             const token = await getAuthToken();
             setAuthToken(token);
-        }, 3600000);
+        }, 120);
 
         return () => clearInterval(intervalId);
     }, []);
