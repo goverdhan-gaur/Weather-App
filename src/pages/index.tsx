@@ -1,7 +1,10 @@
 import { Landing } from '@/components/Landing/Landing'
+import useAuthToken from '@/hooks/useApiRequest'
 import Head from 'next/head'
 
 export default function Home() {
+  useAuthToken()
+
   return (
     <>
       <Head>
