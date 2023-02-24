@@ -8,9 +8,9 @@
     "plugin:import/typescript"
   ],
   "rules": {
-    // I suggest you add those two rules:
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "error",
+    "no-undef": "error",
     "quotes": [2, "single", { "avoidEscape": true }],
     "no-unused-vars": [
       "error",
