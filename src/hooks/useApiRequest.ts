@@ -8,12 +8,11 @@ async function getAuthToken() {
 }
 
 function useAuthToken() {
-    const [authToken, setAuthToken] = useState(null);
+    const [authToken, setAuthToken] = useState('null');
 
     useEffect(() => {
         const fetchAuthToken = async () => {
             const data = await getAuthToken();
-            console.log(data)
             setAuthToken(data);
         };
 
@@ -24,12 +23,11 @@ function useAuthToken() {
         const intervalId = setInterval(async () => {
             const token = await getAuthToken();
             setAuthToken(token);
-        }, 120);
-
+        }, 3600000);
         return () => clearInterval(intervalId);
     }, []);
 
-    return authToken;
+    return { authToken };
 }
 
 export default useAuthToken;

@@ -3,8 +3,7 @@ import useAuthToken from '@/hooks/useApiRequest'
 import Head from 'next/head'
 
 export default function Home() {
-  useAuthToken()
-
+  const { authToken } = useAuthToken()
   return (
     <>
       <Head>
@@ -13,7 +12,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Landing />
+      {authToken && <Landing />}
     </>
   )
 }
