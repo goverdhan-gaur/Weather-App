@@ -1,6 +1,7 @@
 import { Landing } from '@/components/Landing/Landing'
 import useAuthToken from '@/hooks/useApiRequest'
 import Head from 'next/head'
+import Image from 'next/image'
 
 export default function Home() {
   const { authToken } = useAuthToken()
