@@ -4,6 +4,7 @@ import Head from 'next/head'
 
 export default function Home() {
   const aa = ''
+  const aa = ''
   const { authToken } = useAuthToken()
   return (
     <>
