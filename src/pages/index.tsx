@@ -3,7 +3,7 @@ import useAuthToken from '@/hooks/useApiRequest'
 import Head from 'next/head'
 
 export default function Home() {
-  const { authToken } = useAuthToken()
+  const { authToken } = useAuthToken()ß
   const { authToken } = useAuthToken()
   return (
     <>
