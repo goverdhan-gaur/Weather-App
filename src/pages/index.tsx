@@ -1,5 +1,5 @@
 import { Landing } from '@/components/Landing/Landing'
-import useAuthToken from '@/hooks/useApiRequest'
+import useAuthToken from '@/hooks/useAuthToken'
 import Head from 'next/head'
 
 export default function Home() {
