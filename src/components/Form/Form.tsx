@@ -12,16 +12,18 @@ import { getFormattedDate } from '@/utils/getFormattedDate'
 import _ from 'lodash'
 import useGoogleAPis from '@/hooks/useGoogleAPis'
 import useMeteoMaticApi from '@/hooks/useMeteoMaticApi'
-
 import { useDispatch } from 'react-redux'
+import useDeviceDetect from '@/hooks/useDeviceDetection'
+
 type Props = {
   //
 }
 
 export const Form: FunctionComponent<Props> = () => {
-  const dispatch = useDispatch()
-  const { getAddressPredictions, getCoordinates } = useGoogleAPis()
+  const { isTablet } = useDeviceDetect()
   const { loading, getWeatherData } = useMeteoMaticApi()
+  const { getAddressPredictions, getCoordinates } = useGoogleAPis()
+  const dispatch = useDispatch()
 
   const [hasValues, setHasValues] = useState(false)
   const [location, setLocation] = useState('')
@@ -29,7 +31,9 @@ export const Form: FunctionComponent<Props> = () => {
   const [timeFrom, setTimeFrom] = useState(
     getFormattedDate(new Date().toString(), 0, false)
   )
-  const [timeTo, setTimeTo] = useState('')
+  const [timeTo, setTimeTo] = useState(
+    getFormattedDate(new Date().toString(), 1, false)
+  )
   const [parameters, setParameters] = useState<string[]>([])
 
   const [predictedLocations, setPredictedLocations] = useState()
@@ -47,7 +51,6 @@ export const Form: FunctionComponent<Props> = () => {
     }
   }, [coordinates, timeFrom, parameters])
 
-  // General input chanfge handle
   const handleCheckboxChange: ChangeEventHandler = (event) => {
     const parameter = _.get(event, 'target.name', '')
     const checked = _.get(event, 'target.checked', '')
@@ -58,9 +61,9 @@ export const Form: FunctionComponent<Props> = () => {
     }
   }
 
-  // For submit handle
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault()
+    dispatch({ type: 'UPDATE_DATA', payload: {} })
     const formData = {
       coordinates,
       parameters,
@@ -72,13 +75,11 @@ export const Form: FunctionComponent<Props> = () => {
     dispatch({ type: 'UPDATE_DATA', payload: data })
   }
 
-  // Date from handle
   const handleFromDateChange: ChangeEventHandler = (event) => {
     const value = _.get(event, 'target.value', '')
     setTimeFrom(value)
   }
 
-  // Date To Handle
   const handleToDateChange: ChangeEventHandler = (event) => {
     const value = _.get(event, 'target.value', '')
     setTimeTo(value)
@@ -93,15 +94,12 @@ export const Form: FunctionComponent<Props> = () => {
     setPredictedLocations(undefined)
   }
 
-  // Location handle
   const handleLocationInputChange: ChangeEventHandler = async (event) => {
     const value = _.get(event, 'target.value', '')
     setLocation(value)
     const predictions = value ? await getAddressPredictions(value) : []
     setPredictedLocations(predictions)
   }
-
-  // console.log(')
 
   const parametersList = [
     'Temperature',
@@ -115,64 +113,68 @@ export const Form: FunctionComponent<Props> = () => {
   return (
     <Styled.wrapper>
       <Styled.form onSubmit={handleFormSubmit}>
-        <FormGroup col={1}>
-          <FormInput
-            type="text"
-            label="location"
-            icon="location"
-            value={location}
-            dropDownList={predictedLocations}
-            onChange={handleLocationInputChange}
-            onSelect={handleItemSelect}
-          />
-        </FormGroup>
-        <FormGroup col={1}>
-          <FormInput
-            label="from"
-            type="datetime-local"
-            name="timefrom"
-            icon="date"
-            defaultValue={timeFrom}
-            min={timeFrom}
-            max={timeTo}
-            onChange={handleFromDateChange}
-          />
-        </FormGroup>
-        <FormGroup col={1}>
-          <FormInput
-            label="To"
-            type="datetime-local"
-            name="timeto"
-            icon="date"
-            defaultValue={timeTo}
-            min={timeFrom}
-            max={timeTo}
-            onChange={handleToDateChange}
-          />
-        </FormGroup>
-        <FormGroup groupLabel="Select Parameters" col={2}>
-          {parametersList.map((parameter) => {
-            return (
-              <FormInput
-                key={parameter}
-                type="checkbox"
-                label={parameter}
-                name={parameter}
-                onChange={handleCheckboxChange}
-              />
-            )
-          })}
-        </FormGroup>
-        {hasValues && (
+        <FormGroup col={isTablet ? 2 : 1}>
           <FormGroup col={1}>
-            <FormInput
-              type="submit"
-              value={loading ? 'Loading...' : 'Submit'}
-            />
+            <FormGroup col={1}>
+              <FormInput
+                type="text"
+                label="location"
+                icon="location"
+                value={location}
+                dropDownList={predictedLocations}
+                onChange={handleLocationInputChange}
+                onSelect={handleItemSelect}
+              />
+            </FormGroup>
+            <FormGroup col={1}>
+              <FormInput
+                label="from"
+                type="datetime-local"
+                name="timefrom"
+                icon="date"
+                defaultValue={timeFrom}
+                min={timeFrom}
+                onChange={handleFromDateChange}
+              />
+            </FormGroup>
+            <FormGroup col={1}>
+              <FormInput
+                label="To"
+                type="datetime-local"
+                name="timeto"
+                icon="date"
+                defaultValue={timeTo}
+                min={timeFrom}
+                max={timeTo}
+                onChange={handleToDateChange}
+              />
+            </FormGroup>
           </FormGroup>
-        )}
+          <FormGroup col={1}>
+            <FormGroup groupLabel="Select Parameters" col={2}>
+              {parametersList.map((parameter) => {
+                return (
+                  <FormInput
+                    key={parameter}
+                    type="checkbox"
+                    label={parameter}
+                    name={parameter}
+                    onChange={handleCheckboxChange}
+                  />
+                )
+              })}
+            </FormGroup>
+
+            <FormGroup col={1}>
+              <FormInput
+                type="submit"
+                isDisabled={!hasValues}
+                value={loading ? 'Loading...' : 'Submit'}
+              />
+            </FormGroup>
+          </FormGroup>
+        </FormGroup>
       </Styled.form>
-      {/* </form> */}
     </Styled.wrapper>
   )
 }

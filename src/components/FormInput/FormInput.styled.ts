@@ -2,7 +2,9 @@ import { getRem } from '@/mixins/getRemUnits'
 import { colors } from '@/utils/themes'
 import styled from 'styled-components'
 
-export const wrapper = styled.div``
+export const wrapper = styled.div`
+  text-align: left;
+`
 export const icon = styled.span`
   position: relative;
   color: ${colors.charcoalGray};
@@ -20,9 +22,10 @@ export const icon = styled.span`
   }
 `
 
-export const inputContainer = styled.div`
+export const inputContainer = styled.div<{ disabled: boolean }>`
   position: relative;
-  background: ${colors.lightBlueGray};
+  background: ${({ disabled }) =>
+    disabled ? 'lightgrey' : colors.lightBlueGray};
   border-radius: ${getRem(5)};
   padding: ${getRem(10)} ${getRem(12)};
   display: flex;
@@ -39,18 +42,22 @@ export const label = styled.label`
 
 interface Input {
   icon: boolean
+  isDisabled?: boolean
 }
 
 export const input = styled.input<Input>`
   padding-left: ${({ icon }) => {
     return icon ? 0 : getRem(12)
   }};
+  margin-top: ${getRem(3)};
   width: 100%;
   background: transparent;
   border: none;
   font-size: ${getRem(12)};
   outline: none;
   position: relative;
+  color: ${colors.charcoalGray};
+
   &[type='time']::-webkit-calendar-picker-indicator {
     display: none;
   }
@@ -90,6 +97,10 @@ export const input = styled.input<Input>`
     text-align: center;
     font-size: ${getRem(24)};
     color: ${colors.lightBlueGray};
+  }
+
+  &:disabled {
+    background: 'lightgrey';
   }
 `
 

@@ -9,7 +9,7 @@ interface FormData {
   timeTo: string
 }
 
-const parametersList = {
+export const parametersList = {
   Temperature: 't_2m:C',
   'Min. Temperature': 't_min_2m_24h:C',
   Precipitation: 'precip_1h:mm',
@@ -33,7 +33,7 @@ function useMeteoMaticApi() {
 
     const urlParameters = params.join()
 
-    const urlValidateTime = `${timeFrom}Z--${timeTo}Z:PT1H`
+    const urlValidateTime = `${timeFrom}Z--${timeTo}Z`
 
     const urlLocation = `${coordinates?.lat},${coordinates?.lng}`
 

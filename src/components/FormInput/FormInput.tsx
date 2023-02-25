@@ -16,6 +16,7 @@ type Props = {
   min?: string
   max?: string
 
+  isDisabled?: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dropDownList?: any
 }
@@ -42,6 +43,7 @@ const FormInput: FunctionComponent<Props> = memo(
     dropDownList,
     defaultValue,
     min,
+    isDisabled = false,
     max,
     onChange,
     onSelect,
@@ -49,7 +51,6 @@ const FormInput: FunctionComponent<Props> = memo(
     name,
     placeholder = 'Placeholder',
   }) => {
-    // console.log(value)
     const renderCheckbox = () => {
       return (
         <Styled.checkboxWrapper>
@@ -71,7 +72,7 @@ const FormInput: FunctionComponent<Props> = memo(
         {type !== 'checkbox' ? (
           <>
             <Styled.label htmlFor={label}>{label}</Styled.label>
-            <Styled.inputContainer>
+            <Styled.inputContainer disabled={isDisabled}>
               {iconEl && <Styled.icon>{iconEl}</Styled.icon>}
               <Styled.input
                 icon={icon === ''}
@@ -83,6 +84,7 @@ const FormInput: FunctionComponent<Props> = memo(
                 defaultValue={defaultValue}
                 min={min}
                 max={max}
+                disabled={isDisabled}
                 onChange={onChange}
               />
               {dropDownList && dropDownList.length > 0 && (
