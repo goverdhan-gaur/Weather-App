@@ -13,11 +13,13 @@ import _ from 'lodash'
 import useGoogleAPis from '@/hooks/useGoogleAPis'
 import useMeteoMaticApi from '@/hooks/useMeteoMaticApi'
 
+import { useDispatch } from 'react-redux'
 type Props = {
   //
 }
 
 export const Form: FunctionComponent<Props> = () => {
+  const dispatch = useDispatch()
   const { getAddressPredictions, getCoordinates } = useGoogleAPis()
   const { loading, getWeatherData } = useMeteoMaticApi()
 
@@ -67,7 +69,7 @@ export const Form: FunctionComponent<Props> = () => {
     }
 
     const data = await getWeatherData(formData)
-    console.log(data)
+    dispatch({ type: 'UPDATE_DATA', payload: data })
   }
 
   // Date from handle
