@@ -8,6 +8,7 @@ const initialState = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function rootReducer(
   state = initialState,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   action: { type: string; payload: any }
 ) {
   switch (action.type) {
