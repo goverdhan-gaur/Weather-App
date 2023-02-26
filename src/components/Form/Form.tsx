@@ -14,6 +14,7 @@ import useGoogleAPis from '@/hooks/useGoogleAPis'
 import useMeteoMaticApi from '@/hooks/useMeteoMaticApi'
 import { useDispatch } from 'react-redux'
 import useDeviceDetect from '@/hooks/useDeviceDetection'
+import { Message } from '../Message/Message'
 
 type Props = {
   //
@@ -26,12 +27,17 @@ export const Form: FunctionComponent<Props> = () => {
   const dispatch = useDispatch()
 
   const [hasValues, setHasValues] = useState(false)
+  const [locationError, setLocationError] = useState('')
+  const [fromDateError, setFromDateError] = useState('')
+  const [toDateError, setToDateError] = useState('')
+  const [maxDate, setMaxDate] = useState('')
   const [location, setLocation] = useState('')
   const [coordinates, setCoordinates] = useState<{ lat: number; lng: number }>()
-  const [timeFrom, setTimeFrom] = useState(
+  const currDate = getFormattedDate(new Date().toString(), 0, false)
+  const [dateFrom, setDateFrom] = useState(
     getFormattedDate(new Date().toString(), 0, false)
   )
-  const [timeTo, setTimeTo] = useState(
+  const [dateTo, setDateTo] = useState(
     getFormattedDate(new Date().toString(), 1, false)
   )
   const [parameters, setParameters] = useState<string[]>([])
@@ -39,17 +45,17 @@ export const Form: FunctionComponent<Props> = () => {
   const [predictedLocations, setPredictedLocations] = useState()
 
   useEffect(() => {
-    const timeTo = getFormattedDate(timeFrom.toString(), 1)
-    setTimeTo(timeTo)
-  }, [timeFrom])
+    const maxDate = getFormattedDate(dateFrom.toString(), 1)
+    setMaxDate(maxDate)
+  }, [dateFrom])
 
   useEffect(() => {
-    if (coordinates && timeFrom && parameters.length > 0) {
+    if (coordinates && dateFrom && parameters.length > 0) {
       setHasValues(true)
     } else {
       setHasValues(false)
     }
-  }, [coordinates, timeFrom, parameters])
+  }, [coordinates, dateFrom, parameters])
 
   const handleCheckboxChange: ChangeEventHandler = (event) => {
     const parameter = _.get(event, 'target.name', '')
@@ -67,8 +73,8 @@ export const Form: FunctionComponent<Props> = () => {
     const formData = {
       coordinates,
       parameters,
-      timeFrom,
-      timeTo,
+      dateFrom,
+      dateTo,
     }
 
     const data = await getWeatherData(formData)
@@ -77,12 +83,30 @@ export const Form: FunctionComponent<Props> = () => {
 
   const handleFromDateChange: ChangeEventHandler = (event) => {
     const value = _.get(event, 'target.value', '')
-    setTimeFrom(value)
+    const selectedDate = new Date(value)
+    const minDate = new Date(currDate)
+
+    if (selectedDate < minDate) {
+      setFromDateError(`Please select ${currDate} and later`)
+    } else {
+      setFromDateError('')
+      setDateFrom(value)
+    }
   }
 
   const handleToDateChange: ChangeEventHandler = (event) => {
     const value = _.get(event, 'target.value', '')
-    setTimeTo(value)
+
+    const selectedDate = new Date(value)
+    const min = new Date(dateFrom)
+    const max = new Date(maxDate)
+
+    if (!(selectedDate >= min) || !(selectedDate <= max)) {
+      setToDateError(`Please select ${dateTo} and earlier`)
+    } else {
+      setToDateError('')
+      setDateTo(value)
+    }
   }
 
   const handleItemSelect = async (location: string, place_id: string) => {
@@ -90,7 +114,7 @@ export const Form: FunctionComponent<Props> = () => {
     const address = location
     const coordinates = value ? await getCoordinates(value) : []
     setLocation(address)
-    setCoordinates(coordinates)
+    coordinates.lat && coordinates.lng && setCoordinates(coordinates)
     setPredictedLocations(undefined)
   }
 
@@ -98,7 +122,12 @@ export const Form: FunctionComponent<Props> = () => {
     const value = _.get(event, 'target.value', '')
     setLocation(value)
     const predictions = value ? await getAddressPredictions(value) : []
+
     setPredictedLocations(predictions)
+
+    !predictions.length && value
+      ? setLocationError('Please enter a valid location')
+      : setLocationError('')
   }
 
   const parametersList = [
@@ -115,40 +144,38 @@ export const Form: FunctionComponent<Props> = () => {
       <Styled.form onSubmit={handleFormSubmit}>
         <FormGroup col={isTablet ? 2 : 1}>
           <FormGroup col={1}>
-            <FormGroup col={1}>
-              <FormInput
-                type="text"
-                label="location"
-                icon="location"
-                value={location}
-                dropDownList={predictedLocations}
-                onChange={handleLocationInputChange}
-                onSelect={handleItemSelect}
-              />
-            </FormGroup>
-            <FormGroup col={1}>
-              <FormInput
-                label="from"
-                type="datetime-local"
-                name="timefrom"
-                icon="date"
-                defaultValue={timeFrom}
-                min={timeFrom}
-                onChange={handleFromDateChange}
-              />
-            </FormGroup>
-            <FormGroup col={1}>
-              <FormInput
-                label="To"
-                type="datetime-local"
-                name="timeto"
-                icon="date"
-                defaultValue={timeTo}
-                min={timeFrom}
-                max={timeTo}
-                onChange={handleToDateChange}
-              />
-            </FormGroup>
+            <FormInput
+              type="text"
+              label="location"
+              icon="location"
+              value={location}
+              error={locationError}
+              dropDownList={predictedLocations}
+              onChange={handleLocationInputChange}
+              onSelect={handleItemSelect}
+            />
+
+            <FormInput
+              label="from"
+              type="datetime-local"
+              name="dateFrom"
+              icon="date"
+              error={fromDateError}
+              defaultValue={dateFrom}
+              min={currDate}
+              onChange={handleFromDateChange}
+            />
+            <FormInput
+              label="To"
+              type="datetime-local"
+              name="dateTo"
+              icon="date"
+              error={toDateError}
+              defaultValue={dateTo}
+              min={dateFrom}
+              max={dateTo}
+              onChange={handleToDateChange}
+            />
           </FormGroup>
           <FormGroup col={1}>
             <FormGroup groupLabel="Select Parameters" col={2}>
@@ -164,14 +191,12 @@ export const Form: FunctionComponent<Props> = () => {
                 )
               })}
             </FormGroup>
-
-            <FormGroup col={1}>
-              <FormInput
-                type="submit"
-                isDisabled={!hasValues}
-                value={loading ? 'Loading...' : 'Submit'}
-              />
-            </FormGroup>
+            <Message message="Please select atleast 1 parameter" />
+            <FormInput
+              type="submit"
+              isDisabled={!hasValues}
+              value={loading ? 'Loading...' : 'Submit'}
+            />
           </FormGroup>
         </FormGroup>
       </Styled.form>

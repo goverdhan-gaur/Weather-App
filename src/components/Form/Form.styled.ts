@@ -1,4 +1,5 @@
 import { getRem } from '@/mixins/getRemUnits'
+
 import styled from 'styled-components'
 export const wrapper = styled.div`
   position: relative;
@@ -12,3 +13,4 @@ export const wrapper = styled.div`
 export const form = styled.form`
   width: 100%;
 `
+export const instructions = styled.p``
