@@ -28,6 +28,7 @@ export const Form: FunctionComponent<Props> = () => {
   const [hasValues, setHasValues] = useState(false)
   const [location, setLocation] = useState('')
   const [coordinates, setCoordinates] = useState<{ lat: number; lng: number }>()
+  const currDate = getFormattedDate(new Date().toString(), 0, false)
   const [timeFrom, setTimeFrom] = useState(
     getFormattedDate(new Date().toString(), 0, false)
   )
@@ -90,7 +91,7 @@ export const Form: FunctionComponent<Props> = () => {
     const address = location
     const coordinates = value ? await getCoordinates(value) : []
     setLocation(address)
-    setCoordinates(coordinates)
+    coordinates.lat && coordinates.lng && setCoordinates(coordinates)
     setPredictedLocations(undefined)
   }
 
@@ -115,40 +116,34 @@ export const Form: FunctionComponent<Props> = () => {
       <Styled.form onSubmit={handleFormSubmit}>
         <FormGroup col={isTablet ? 2 : 1}>
           <FormGroup col={1}>
-            <FormGroup col={1}>
-              <FormInput
-                type="text"
-                label="location"
-                icon="location"
-                value={location}
-                dropDownList={predictedLocations}
-                onChange={handleLocationInputChange}
-                onSelect={handleItemSelect}
-              />
-            </FormGroup>
-            <FormGroup col={1}>
-              <FormInput
-                label="from"
-                type="datetime-local"
-                name="timefrom"
-                icon="date"
-                defaultValue={timeFrom}
-                min={timeFrom}
-                onChange={handleFromDateChange}
-              />
-            </FormGroup>
-            <FormGroup col={1}>
-              <FormInput
-                label="To"
-                type="datetime-local"
-                name="timeto"
-                icon="date"
-                defaultValue={timeTo}
-                min={timeFrom}
-                max={timeTo}
-                onChange={handleToDateChange}
-              />
-            </FormGroup>
+            <FormInput
+              type="text"
+              label="location"
+              icon="location"
+              value={location}
+              dropDownList={predictedLocations}
+              onChange={handleLocationInputChange}
+              onSelect={handleItemSelect}
+            />
+            <FormInput
+              label="from"
+              type="datetime-local"
+              name="timefrom"
+              icon="date"
+              defaultValue={timeFrom}
+              min={currDate}
+              onChange={handleFromDateChange}
+            />
+            <FormInput
+              label="To"
+              type="datetime-local"
+              name="timeto"
+              icon="date"
+              defaultValue={timeTo}
+              min={timeFrom}
+              max={timeTo}
+              onChange={handleToDateChange}
+            />
           </FormGroup>
           <FormGroup col={1}>
             <FormGroup groupLabel="Select Parameters" col={2}>
@@ -164,14 +159,11 @@ export const Form: FunctionComponent<Props> = () => {
                 )
               })}
             </FormGroup>
-
-            <FormGroup col={1}>
-              <FormInput
-                type="submit"
-                isDisabled={!hasValues}
-                value={loading ? 'Loading...' : 'Submit'}
-              />
-            </FormGroup>
+            <FormInput
+              type="submit"
+              isDisabled={!hasValues}
+              value={loading ? 'Loading...' : 'Submit'}
+            />
           </FormGroup>
         </FormGroup>
       </Styled.form>
