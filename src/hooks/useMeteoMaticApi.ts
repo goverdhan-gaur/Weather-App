@@ -1,12 +1,11 @@
 import axios from 'axios'
 import { useState } from 'react'
-// import { useState } from 'react';
 
 interface FormData {
   coordinates: { lat: number; lng: number } | undefined
   parameters: string[]
-  timeFrom: string
-  timeTo: string
+  dateFrom: string
+  dateTo: string
 }
 
 export const parametersList = {
@@ -24,8 +23,8 @@ function useMeteoMaticApi() {
   const generateUrl = ({
     coordinates,
     parameters,
-    timeFrom,
-    timeTo,
+    dateFrom,
+    dateTo,
   }: FormData) => {
     const params = parameters.map(
       (param: string) => parametersList[param as keyof typeof parametersList]
@@ -33,7 +32,7 @@ function useMeteoMaticApi() {
 
     const urlParameters = params.join()
 
-    const urlValidateTime = `${timeFrom}Z--${timeTo}Z`
+    const urlValidateTime = `${dateFrom}Z--${dateTo}Z`
 
     const urlLocation = `${coordinates?.lat},${coordinates?.lng}`
 

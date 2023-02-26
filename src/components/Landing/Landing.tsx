@@ -1,16 +1,17 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import * as Styled from './Landing.styled'
 import { Heading } from '../Heading/Heading'
-import { Form } from '../Form/Form'
 import { useSelector } from 'react-redux'
 import { VisualizationsChart } from '../VisualizationsChart/VisualizationsChart'
 import { VisualizationContainer } from '../VisualizationContainer/VisualizationContainer'
 import { FormGroup } from '../FormGroup/FormGroup'
 import useDeviceDetect from '@/hooks/useDeviceDetection'
+import { Form } from '../Form/Form'
 
 type Props = {
   //
 }
+
 export const parametersList = {
   'Temperature(C°)': 't_2m:C',
   'Min. Temperature(C°)': 't_min_2m_24h:C',

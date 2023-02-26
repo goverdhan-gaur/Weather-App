@@ -11,10 +11,9 @@ export default async function handler(
 
   try {
     const url = `https://api.meteomatics.com/${req.query.url}?access_token=${access_token}`
-    console.log(url)
+
     const response = await fetch(url)
     const data = await response.json()
-    console.log(data)
     res.status(200).json(data)
   } catch (err) {
     console.log(err)

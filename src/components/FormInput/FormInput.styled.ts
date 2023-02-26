@@ -58,16 +58,7 @@ export const input = styled.input<Input>`
   position: relative;
   color: ${colors.charcoalGray};
 
-  &[type='time']::-webkit-calendar-picker-indicator {
-    display: none;
-  }
-
-  &[type='date']::-webkit-calendar-picker-indicator {
-    display: none;
-  }
-
-  &[type='time'],
-  &[type='date'] {
+  &[type='datetime'] {
     font-family: 'Open Sans', sans-serif;
     text-transform: uppercase;
     color: ${colors.charcoalGray};

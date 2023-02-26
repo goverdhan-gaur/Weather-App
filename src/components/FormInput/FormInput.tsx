@@ -1,9 +1,10 @@
 import React, { ChangeEventHandler, FunctionComponent, memo } from 'react'
 import * as Styled from './FormInput.styled'
 import { BiCurrentLocation, BiCalendar, BiTimeFive } from 'react-icons/bi'
+import { Message } from '../Message/Message'
 
 type Props = {
-  type: 'text' | 'date' | 'datetime-local' | 'time' | 'checkbox' | 'submit'
+  type: 'text' | 'datetime-local' | 'checkbox' | 'submit'
   onChange?: ChangeEventHandler<HTMLInputElement>
   onSelect?: (location: string, place_id: string) => void
   label?: string
@@ -15,7 +16,7 @@ type Props = {
   defaultValue?: string
   min?: string
   max?: string
-
+  error?: string
   isDisabled?: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dropDownList?: any
@@ -37,6 +38,7 @@ const getIcon = (name: string | null) => {
 const FormInput: FunctionComponent<Props> = memo(
   ({
     type,
+    error,
     icon = '',
     label,
     value,
@@ -107,6 +109,7 @@ const FormInput: FunctionComponent<Props> = memo(
                 </Styled.dropDown>
               )}
             </Styled.inputContainer>
+            {error && <Message type="error" message={error} />}
           </>
         ) : (
           renderCheckbox()
