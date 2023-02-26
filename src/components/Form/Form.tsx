@@ -21,7 +21,10 @@ type Props = {
 }
 
 export const Form: FunctionComponent<Props> = () => {
+  // Using useDeviceDetect hook to get the device type
   const { isTablet } = useDeviceDetect()
+
+  //
   const { loading, getWeatherData } = useMeteoMaticApi()
   const { getAddressPredictions, getCoordinates } = useGoogleAPis()
   const dispatch = useDispatch()
@@ -46,6 +49,7 @@ export const Form: FunctionComponent<Props> = () => {
 
   useEffect(() => {
     const maxDate = getFormattedDate(dateFrom.toString(), 1)
+
     setMaxDate(maxDate)
   }, [dateFrom])
 
@@ -160,7 +164,6 @@ export const Form: FunctionComponent<Props> = () => {
               onChange={handleLocationInputChange}
               onSelect={handleItemSelect}
             />
-
             <FormInput
               label="from"
               type="datetime-local"
@@ -179,7 +182,7 @@ export const Form: FunctionComponent<Props> = () => {
               error={toDateError}
               defaultValue={dateTo}
               min={dateFrom}
-              max={dateTo}
+              max={maxDate}
               onChange={handleToDateChange}
             />
           </FormGroup>
