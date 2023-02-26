@@ -50,12 +50,18 @@ export const Form: FunctionComponent<Props> = () => {
   }, [dateFrom])
 
   useEffect(() => {
-    if (coordinates && dateFrom && parameters.length > 0) {
+    if (
+      coordinates &&
+      dateFrom &&
+      !fromDateError &&
+      !toDateError &&
+      parameters.length > 0
+    ) {
       setHasValues(true)
     } else {
       setHasValues(false)
     }
-  }, [coordinates, dateFrom, parameters])
+  }, [coordinates, dateFrom, parameters, fromDateError, toDateError])
 
   const handleCheckboxChange: ChangeEventHandler = (event) => {
     const parameter = _.get(event, 'target.name', '')
