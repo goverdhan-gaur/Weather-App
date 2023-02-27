@@ -9,7 +9,6 @@ import axios from 'axios'
  */
 export async function getAuthToken() {
   const response = await axios.get('/api/auth/access_token')
-  const response = await axios.get('/api/auth/access_token')
   const data = await response.data
   return data
 }
