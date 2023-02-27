@@ -14,32 +14,66 @@ import {
   CartesianGrid,
 } from 'recharts'
 
-// Define the props for the VisualizationsChart component
-type Props = {
-  // An array of labels for each line in the chart
+/**
+ * @typedef {object} Props
+ * @property {string} [label] - Labels for the datasets
+ * @property { {coordinates: [{ dates: [{ date: string; value: number }] }]} } data - datasets
+ */
+export type Props = {
   labels: string[] | undefined
-  // An array of datasets, each containing an array of coordinates with dates and values
   data: [{ coordinates: [{ dates: [{ date: string; value: number }] }] }]
 }
 
-// Define the VisualizationsChart component
+/**
+ * @component
+ * VisualizationChart
+ * @description
+ * A rechart-based line chart component for displaying multiple data sets with custom labels.
+ * @param {Object} Props - The props object for the VisualizationsChart component.
+ * @param {Array<string>|undefined} Props.labels - An optional array of custom labels for each data set.
+ * @param {Array<Object>} Props.data - An array of data sets with coordinates and dates values.
+ * @returns {JSX.Element} A React component for a line chart with the specified data sets and labels.
+ * @example
+ * <VisualizationsChart
+ * labels={['Dataset 1', 'Dataset 2']}
+ * data={[
+ * {
+ *   coordinates: [
+ *     {
+ *       dates: [
+ *         { date: '2021-01-01', value: 100 },
+ *         { date: '2021-01-02', value: 200 },
+ *         { date: '2021-01-03', value: 300 },
+ *       ],
+ *     },
+ *   ],
+ * },
+ * {
+ *   coordinates: [
+ *     {
+ *       dates: [
+ *         { date: '2021-01-01', value: 150 },
+ *         { date: '2021-01-02', value: 250 },
+ *         { date: '2021-01-03', value: 350 },
+ *       ],
+ *     },
+ * },
+ * ]}
+ * />
+ */
 export const VisualizationsChart: FunctionComponent<Props> = ({
   labels,
   data,
 }) => {
-  // Declare a state variable for the chart data
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [dataArray, setDataArray] = useState<any>()
 
-  // Use the useEffect hook to transform the data into the format expected by the LineChart component
   useEffect(() => {
-    // Extract the dates and values from each dataset
     const newDate = data.map((dataset) =>
       _.get(dataset, 'coordinates[0].dates')
     )
     const newa = [...newDate]
 
-    // Merge the datasets into a single array of objects, where each object represents a unique date
     const merged = new Map()
     newa.forEach((arr, i) => {
       arr.forEach((obj) => {
@@ -52,13 +86,10 @@ export const VisualizationsChart: FunctionComponent<Props> = ({
       })
     })
 
-    // Convert the map into an array and set it as the chart data
     setDataArray(Array.from(merged.values()))
   }, [])
 
   return (
-    // Render the chart component within a responsive container
-
     <Styled.wrapper>
       <ResponsiveContainer>
         <LineChart

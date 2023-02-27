@@ -1,3 +1,11 @@
+/**
+ * Returns a formatted date string in the format of YYYY-MM-DDTHH:mm:ss.
+ * @param dateString - The date string to format.
+ * @param monthDifference - (Optional) The number of months to add or subtract from the given date.
+ * @param time - (Optional) Whether to include time in the formatted date string.
+ * @returns The formatted date string.
+ */
+
 export const getFormattedDate = (
   dateString: string,
   monthDifference?: number,

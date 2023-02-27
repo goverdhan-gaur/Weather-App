@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "docs": "typedoc",
     "create-component": "node scripts/components/index.js"
   },
   "dependencies": {
@@ -44,7 +45,9 @@
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.27.5",
     "husky": "^8.0.3",
+    "jsdoc": "^4.0.2",
     "lint-staged": "^13.1.0",
-    "prettier": "^2.8.3"
+    "prettier": "^2.8.3",
+    "typedoc": "^0.23.25"
   }
 }

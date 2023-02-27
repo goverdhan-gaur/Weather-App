@@ -10,8 +10,11 @@
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "sourceMap": true,
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
@@ -19,6 +22,12 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "src", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
+  "typedocOptions": {
+    "out": "./docs",
+    "entryPoints": ["./src"],
+    "exclude": ["**/*.styled.ts"],
+    "entryPointStrategy": "expand"
+  }
 }

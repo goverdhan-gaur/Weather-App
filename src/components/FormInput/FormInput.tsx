@@ -3,7 +3,11 @@ import * as Styled from './FormInput.styled'
 import { BiCurrentLocation, BiCalendar, BiTimeFive } from 'react-icons/bi'
 import { Message } from '../Message/Message'
 
-type Props = {
+/**
+ *
+ * @typedef {object} Props
+ */
+export type Props = {
   type: 'text' | 'datetime-local' | 'checkbox' | 'submit'
   onChange?: ChangeEventHandler<HTMLInputElement>
   onSelect?: (location: string, place_id: string) => void
@@ -22,7 +26,12 @@ type Props = {
   dropDownList?: any
 }
 
-const getIcon = (name: string | null) => {
+/**
+ * Get the icon for the input element.
+ * @param {string|null} name - The name of the icon to get.
+ * @returns {JSX.Element|boolean} - A React component representing the icon, or false if no icon was found.
+ */
+export const getIcon = (name: string | null) => {
   switch (name) {
     case 'location':
       return <BiCurrentLocation />
@@ -35,6 +44,45 @@ const getIcon = (name: string | null) => {
   }
 }
 
+/**
+ * @component
+ * FormInput
+ * @description
+ * Represents a form input field with various input types and options.
+ *
+ * @param {object} Props - The props object that contains the following properties:
+ * @param {string} type - The type of input field (e.g. text, number, checkbox).
+ * @param {string} error - The error message to display if the input value is invalid.
+ * @param {string} icon - The name of the icon to display next to the input field (optional).
+ * @param {string} label - The label text to display above the input field.
+ * @param {string} value - The current value of the input field.
+ * @param {Array} dropDownList - The list of options to display in a dropdown menu (optional).
+ * @param {string} defaultValue - The default value of the input field (optional).
+ * @param {number} min - The minimum value allowed for number inputs (optional).
+ * @param {boolean} isDisabled - Whether the input field should be disabled (optional).
+ * @param {number} max - The maximum value allowed for number inputs (optional).
+ * @param {function} onChange - The callback function to call when the input value changes.
+ * @param {function} onSelect - The callback function to call when an option is selected from the dropdown menu (optional).
+ * @param {string} id - The ID of the input field.
+ * @param {string} name - The name of the input field.
+ * @param {string} placeholder - The placeholder text to display in the input field (optional).
+ *
+ * @returns {JSX.Element} A React component representing a form input field.
+ * @example
+ * ```
+ *  <FormInput
+ *    label="To"
+ *    type="datetime-local"
+ *    name="dateTo"
+ *    icon="date"
+ *    error={toDateError}
+ *    defaultValue={dateTo}
+ *    min={dateFrom}
+ *    max={maxDate}
+ *    onChange={handleToDateChange}
+ *  />
+ * ```
+ * */
 const FormInput: FunctionComponent<Props> = memo(
   ({
     type,
@@ -53,6 +101,11 @@ const FormInput: FunctionComponent<Props> = memo(
     name,
     placeholder = 'Placeholder',
   }) => {
+    /**
+     * Renders a checkbox input field with a label.
+     *
+     * @returns {JSX.Element} A React component representing a checkbox input field.
+     */
     const renderCheckbox = () => {
       return (
         <Styled.checkboxWrapper>
