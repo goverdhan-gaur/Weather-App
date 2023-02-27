@@ -8,11 +8,10 @@ import { FormGroup } from '../FormGroup/FormGroup'
 import useDeviceDetect from '@/hooks/useDeviceDetection'
 import { Form } from '../Form/Form'
 
-type Props = {
-  //
-}
-
-export const parametersList = {
+/**
+ * An object that contains the list of available weather parameters and their corresponding API values.
+ */
+const parametersList = {
   'Temperature(C°)': 't_2m:C',
   'Min. Temperature(C°)': 't_min_2m_24h:C',
   'Precipitation(mm)': 'precip_1h:mm',
@@ -21,6 +20,11 @@ export const parametersList = {
   'Wind Speed(ms)': 'wind_speed_10m:ms',
 }
 
+/**
+ * A helper function that retrieves the corresponding weather parameter label given its API value.
+ * @param {string }value - The API value of the weather parameter.
+ * @returns The label of the weather parameter.
+ */
 const getKeyFromValue = (value: string): string | undefined => {
   if (!parametersList) {
     return undefined
@@ -32,7 +36,16 @@ const getKeyFromValue = (value: string): string | undefined => {
   }
   return undefined
 }
-export const Landing: FunctionComponent<Props> = () => {
+
+/**
+ * @component Landing
+ * @description A component that displays the landing page of the application.
+ * @example
+ * return (
+ *    <Landing />
+ * )
+ */
+export const Landing: FunctionComponent = () => {
   const [data, setData] = useState()
   const [labels, setLabels] = useState<string[]>()
   const { isDesktop, isMobile } = useDeviceDetect()

@@ -1,3 +1,6 @@
+/**
+ * An object containing color values.
+ */
 export const colors = {
   charcoalGray: '#333E4D',
   darkBlueGray: '#5E8BAA',
@@ -8,6 +11,9 @@ export const colors = {
   accentLightPurple: '#C2C6FF',
 }
 
+/**
+ * An object containing light theme color values.
+ */
 export const lightTheme = {
   theme: 'light',
   background: colors.lightBlueGray,
