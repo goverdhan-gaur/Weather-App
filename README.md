@@ -3,7 +3,8 @@
 Weather APP
 
 Visit this app at [Weather App ](https://main.d1ykl8j6iq4p6m.amplifyapp.com/).
-Docuementation at [Documentation](https://main--sparkling-begonia-e55a64.netlify.app/index.html)
+
+Documentation at [Documentation](https://main--sparkling-begonia-e55a64.netlify.app/index.html)
 
 ## Getting Started
 
