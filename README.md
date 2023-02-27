@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Project Name
+
+Weather APP
+
 ## Getting Started
 
 First, run the development server:
@@ -11,6 +15,16 @@ yarn dev
 # or
 pnpm dev
 ```
+
+Also We need to install git hooks to run setup husky before making any commit
+
+```bash
+yarn husky install
+```
+
+---You can skip this command if you do not want to run eslist pre-commit---
+
+After installing dependencies
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
