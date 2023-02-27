@@ -2,6 +2,10 @@
 
 Weather APP
 
+## Description
+
+A weather app designed to show the weather parameters in visualization such as temperature, wind speed and min and max temperature, and precipitation. The app will provide users with an intuitive and easy-to-use interface to check the weather conditions in their location or any other location they are interested in.
+
 Visit this app at [Weather App ](https://main.d1ykl8j6iq4p6m.amplifyapp.com/).
 
 Documentation at [Documentation](https://main--sparkling-begonia-e55a64.netlify.app/index.html)
