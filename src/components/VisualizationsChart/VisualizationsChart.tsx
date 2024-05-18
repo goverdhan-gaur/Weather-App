@@ -80,7 +80,7 @@ export const VisualizationsChart: FunctionComponent<Props> = ({
         const { date, value } = obj
 
         const dateObject = new Date(date);
-        const dateString = `${dateObject.getFullYear()}-${dateObject.getMonth()}-${dateObject.getDate()} ${(dateObject.getUTCHours() > 12) ? dateObject.getUTCHours() - 12 + " PM" : dateObject.getUTCHours() + " AM"}`
+        const dateString = `${dateObject.getFullYear()}-${dateObject.getMonth()}-${dateObject.getDate()} ${(dateObject.getUTCHours() > 12) ? dateObject.getUTCHours() - 12 + ' PM' : dateObject.getUTCHours() + ' AM'}`
 
         const key = dateString.toString()
         if (!merged.has(key)) {
