@@ -22,9 +22,9 @@ export const icon = styled.span`
     background: black;
   }
 `
-interface InputContainerProps{
+interface InputContainerProps {
   htmlFor?: string
-  children?:ReactNode
+  children?: ReactNode
 
   disabled: boolean
 }
@@ -38,9 +38,9 @@ export const inputContainer = styled.div<InputContainerProps>`
   justify-content: flex-start;
   align-items: center;
 `
-interface LabelProps{
+interface LabelProps {
   htmlFor?: string
-  children?:ReactNode
+  children?: ReactNode
 }
 export const label = styled.label<LabelProps>`
   font-weight: bold;
@@ -51,20 +51,21 @@ export const label = styled.label<LabelProps>`
 
 interface Input {
   icon: boolean
-  type?:string
-  id?:string
-  name?:string
-  onChange?:ChangeEventHandler<HTMLInputElement> 
+  type?: string
+  id?: string
+  name?: string
+  onChange?: ChangeEventHandler<HTMLInputElement>
   isDisabled?: boolean
-  placeholder?:string
-  defaultValue?:string
-  value?:string
-  min?:string
-  max?:string
-  disabled?:boolean
+  placeholder?: string
+  defaultValue?: string
+  value?: string
+  min?: string
+  max?: string
+  disabled?: boolean
 }
 
 export const input = styled.input<Input>`
+  cursor:pointer;
   padding-left: ${({ icon }) => {
     return icon ? 0 : getRem(12)
   }};
@@ -76,6 +77,10 @@ export const input = styled.input<Input>`
   outline: none;
   position: relative;
   color: ${colors.charcoalGray};
+  
+  &[type='text']{
+    cursor:inherit;
+  }
 
   &[type='datetime'] {
     font-family: 'Open Sans', sans-serif;
@@ -91,6 +96,10 @@ export const input = styled.input<Input>`
     height: ${getRem(30)};
     background: ${colors.lightBlueGray};
     border-radius: ${getRem(5)};
+    &:hover {
+      outline: 1px solid ${colors.lightBlueGray};
+      outline-offset: 1px;
+    }
   }
 
   &[type='checkbox']:checked {
@@ -140,13 +149,17 @@ export const dropDown = styled.ul`
   gap: 5px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 `
-interface DropDownItemProps{
-  children?:ReactNode
-  onClick?:() => void
+interface DropDownItemProps {
+  children?: ReactNode
+  onClick?: () => void
 }
 export const dropDownItem = styled.li<DropDownItemProps>`
+  cursor:pointer;
   background: ${colors.darkBlueGray};
   font-size: ${getRem(14)};
   padding: 10px;
   border-radius: 5px;
+  &:hover {
+    background: ${colors.darkBlueGray}dd;
+  }
 `
