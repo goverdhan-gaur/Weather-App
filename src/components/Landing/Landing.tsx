@@ -49,7 +49,7 @@ export const Landing: FunctionComponent = () => {
   const [data, setData] = useState()
   const [labels, setLabels] = useState<string[]>()
   const { isDesktop, isMobile, isSafari } = useDeviceDetect()
-
+  console.log(process.env.GOOGLE_API_KEY)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const weatherData = useSelector((state: any) => state.data)
 

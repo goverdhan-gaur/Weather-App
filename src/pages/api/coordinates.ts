@@ -17,7 +17,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log(process.env.GOOGLE_API_KEY)
   try {
     /**
      * Send a GET request to the Google Place API to get the coordinates.
