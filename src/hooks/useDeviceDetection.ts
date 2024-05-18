@@ -11,6 +11,7 @@ const useDeviceDetect = () => {
   const [isMobile, setIsMobile] = useState(false)
   const [isTablet, setIsTablet] = useState(false)
   const [isDesktop, setIsDesktop] = useState(false)
+  const [isSafari, setIsSafari] = useState(false)
 
   // State variable for detecting the window size
   const [windowSize, setWindowSize] = useState<{
@@ -45,12 +46,15 @@ const useDeviceDetect = () => {
     // Call handleResize function once on initial render
     handleResize()
 
+    const ua = navigator.userAgent;
+    setIsSafari(ua.includes('Safari') && !ua.includes('Chrome'));
+
     // Detach event listener when component is unmounted
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   // Return an object with current device and window size information
-  return { isMobile, isTablet, isDesktop, windowSize }
+  return { isMobile, isTablet, isDesktop, windowSize, isSafari }
 }
 
 export default useDeviceDetect

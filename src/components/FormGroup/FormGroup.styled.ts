@@ -1,7 +1,12 @@
 import { getRem } from '@/mixins/getRemUnits'
+import { ReactNode } from 'react';
 import styled from 'styled-components'
-
-export const grid = styled.div<{ col: number; width: string }>`
+interface GridProps{
+  children?: ReactNode
+  col: number; 
+  width: string
+}
+export const grid = styled.div<GridProps>`
   width: ${({ width }) => (width ? width : '100%')};
   display: grid;
   grid-template-columns: repeat(${({ col }) => col}, 1fr);

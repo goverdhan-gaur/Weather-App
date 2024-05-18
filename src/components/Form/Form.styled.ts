@@ -1,4 +1,5 @@
 import { getRem } from '@/mixins/getRemUnits'
+import { FormEvent, ReactNode } from 'react'
 
 import styled from 'styled-components'
 export const wrapper = styled.div`
@@ -10,7 +11,11 @@ export const wrapper = styled.div`
   place-items: center;
   height: 100%;
 `
-export const form = styled.form`
+interface FormProps{
+  onSubmit:(arg0: FormEvent) => void,
+  children? : ReactNode
+}
+export const form = styled.form<FormProps>`
   width: 100%;
 `
 export const instructions = styled.p``

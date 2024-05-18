@@ -1,5 +1,6 @@
 import { getRem } from '@/mixins/getRemUnits'
 import { colors } from '@/utils/themes'
+import { ChangeEventHandler, ReactNode } from 'react'
 import styled from 'styled-components'
 
 export const wrapper = styled.div`
@@ -21,8 +22,13 @@ export const icon = styled.span`
     background: black;
   }
 `
+interface InputContainerProps{
+  htmlFor?: string
+  children?:ReactNode
 
-export const inputContainer = styled.div<{ disabled: boolean }>`
+  disabled: boolean
+}
+export const inputContainer = styled.div<InputContainerProps>`
   position: relative;
   background: ${({ disabled }) =>
     disabled ? 'lightgrey' : colors.lightBlueGray};
@@ -32,8 +38,11 @@ export const inputContainer = styled.div<{ disabled: boolean }>`
   justify-content: flex-start;
   align-items: center;
 `
-
-export const label = styled.label`
+interface LabelProps{
+  htmlFor?: string
+  children?:ReactNode
+}
+export const label = styled.label<LabelProps>`
   font-weight: bold;
   color: ${colors.white};
   font-size: ${getRem(14)};
@@ -42,7 +51,17 @@ export const label = styled.label`
 
 interface Input {
   icon: boolean
+  type?:string
+  id?:string
+  name?:string
+  onChange?:ChangeEventHandler<HTMLInputElement> 
   isDisabled?: boolean
+  placeholder?:string
+  defaultValue?:string
+  value?:string
+  min?:string
+  max?:string
+  disabled?:boolean
 }
 
 export const input = styled.input<Input>`
@@ -121,8 +140,11 @@ export const dropDown = styled.ul`
   gap: 5px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 `
-
-export const dropDownItem = styled.li`
+interface DropDownItemProps{
+  children?:ReactNode
+  onClick?:() => void
+}
+export const dropDownItem = styled.li<DropDownItemProps>`
   background: ${colors.darkBlueGray};
   font-size: ${getRem(14)};
   padding: 10px;

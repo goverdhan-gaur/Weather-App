@@ -18,9 +18,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
+    console.log(req.query)
     const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${req.query.location}&types=(cities)&key=${process.env.GOOGLE_API_KEY}`
     const response = await fetch(url)
+    console.log(response)
     const data = await response.json()
+    console.log(data)
     const predictions = data.predictions
     /**
      * Send a success response to the client.

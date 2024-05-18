@@ -35,3 +35,4 @@ function rootReducer(
  * This constant exports a Redux store instance created using the createStore function provided by redux.
  */
 export const store = createStore(rootReducer)
+export type RootState = ReturnType<typeof rootReducer>;

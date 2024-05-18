@@ -48,7 +48,7 @@ const getKeyFromValue = (value: string): string | undefined => {
 export const Landing: FunctionComponent = () => {
   const [data, setData] = useState()
   const [labels, setLabels] = useState<string[]>()
-  const { isDesktop, isMobile } = useDeviceDetect()
+  const { isDesktop, isMobile, isSafari } = useDeviceDetect()
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const weatherData = useSelector((state: any) => state.data)
@@ -66,27 +66,19 @@ export const Landing: FunctionComponent = () => {
   }, [weatherData])
 
   return (
-    <Styled.wrapper>
+    <Styled.wrapper isSafari={isSafari} isMobile={isMobile}>
       <Heading />
       <FormGroup col={isDesktop ? 2 : 1} width={isDesktop ? '80%' : '100%'}>
         <Form />
-        {isMobile ? (
-          data && (
-            <VisualizationContainer>
-              <VisualizationsChart labels={labels} data={data} />
-            </VisualizationContainer>
-          )
-        ) : (
-          <VisualizationContainer>
-            {data ? (
-              <VisualizationsChart labels={labels} data={data} />
-            ) : (
-              <Styled.info>
-                Please select parameters and location to generate the chart.
-              </Styled.info>
-            )}
-          </VisualizationContainer>
-        )}
+        <VisualizationContainer>
+          {data ? (
+            <VisualizationsChart labels={labels} data={data} />
+          ) : (
+            <Styled.info>
+              Please select parameters and location to generate the chart.
+            </Styled.info>
+          )}
+        </VisualizationContainer>
       </FormGroup>
     </Styled.wrapper>
   )

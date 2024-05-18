@@ -30,9 +30,10 @@ export default async function handler(
   headers.set(
     'Authorization',
     'Basic ' +
-      Buffer.from(
-        process.env.METEOMATIC_USERNAME + ':' + process.env.METEOMATIC_PASSWORD
-      ).toString('base64')
+    btoa(process.env.METEOMATIC_USERNAME + ":" + process.env.METEOMATIC_PASSWORD)
+      // Buffer.from(
+      //   process.env.METEOMATIC_USERNAME + ':' + process.env.METEOMATIC_PASSWORD
+      // ).toString('base64')
   )
 
   try {
@@ -45,6 +46,7 @@ export default async function handler(
     })
     const data = await response.json()
     const token = data.access_token
+    console.log(token)
 
     /**
      * Set the expiration time for the cookie.

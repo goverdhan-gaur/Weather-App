@@ -72,20 +72,25 @@ export const VisualizationsChart: FunctionComponent<Props> = ({
     const newDate = data.map((dataset) =>
       _.get(dataset, 'coordinates[0].dates')
     )
-    const newa = [...newDate]
+    const newArray = [...newDate]
 
     const merged = new Map()
-    newa.forEach((arr, i) => {
+    newArray.forEach((arr, i) => {
       arr.forEach((obj) => {
         const { date, value } = obj
-        const key = date.toString()
+
+        const dateObject = new Date(date);
+        const dateString = `${dateObject.getFullYear()}-${dateObject.getMonth()}-${dateObject.getDate()} ${(dateObject.getUTCHours() > 12) ? dateObject.getUTCHours() - 12 + " PM" : dateObject.getUTCHours() + " AM"}`
+
+        const key = dateString.toString()
         if (!merged.has(key)) {
-          merged.set(key, { date })
+          merged.set(key, { date: dateString })
         }
         merged.get(key)[`value${i + 1}`] = value
+
       })
     })
-
+    // console.log(Array.from(merged.values()))
     setDataArray(Array.from(merged.values()))
   }, [])
 

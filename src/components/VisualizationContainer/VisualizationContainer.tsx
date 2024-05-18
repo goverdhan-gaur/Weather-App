@@ -1,9 +1,11 @@
-import React, { FunctionComponent, ReactNode } from 'react'
+import React, { useRef, FunctionComponent, ReactNode, useEffect } from 'react'
+import gsap from 'gsap';
 import * as Styled from './VisualizationContainer.styled'
 import { IoMdClose } from 'react-icons/io'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import useDeviceDetect from '@/hooks/useDeviceDetection'
-
+import { RootState } from '@/store';
+import _ from 'lodash';
 /**
  *
  * @typedef {object} Props
@@ -36,15 +38,30 @@ export type Props = {
 export const VisualizationContainer: FunctionComponent<Props> = ({
   children,
 }) => {
+  const data = useSelector((state: RootState) => state.data);
   const { isMobile } = useDeviceDetect()
   const displatch = useDispatch()
+  const container = useRef();
+  const backdrop = useRef();
+
+  useEffect(() => {
+    if (isMobile) {
+      if (_.isEmpty(data)) {
+        gsap.to(container.current!, { y: '50vh' });
+        gsap.to(backdrop.current!, { autoAlpha: 0 })
+      } else {
+        gsap.to(container.current!, { y: '-50vh' });
+        gsap.to(backdrop.current!, { autoAlpha: 1 })
+      }
+    }
+  }, [data])
   const handleClose = () => {
     displatch({ type: 'UPDATE_DATA', payload: {} })
   }
   return (
     <>
-      {isMobile && <Styled.backdrop onClick={handleClose} />}
-      <Styled.wrapper isMobile={isMobile}>
+      {isMobile && <Styled.backdrop ref={backdrop} onClick={handleClose} />}
+      <Styled.wrapper ref={container} isMobile={isMobile}>
         <Styled.close isMobile={isMobile}>
           <IoMdClose onClick={handleClose} />
         </Styled.close>
